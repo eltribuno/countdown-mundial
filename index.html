@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rumbo al Mundial 2026</title>
+
+<style>
+:root {
+  --color-main: #00bcd4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* FONDO */
+body {
+  height: 100vh;
+  background: url("bg.jpg") no-repeat center center;
+  background-size: cover;
+  position: relative;
+}
+
+/* CENTRADO REAL SOBRE LA IMAGEN */
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -58%);
+  text-align: center;
+  color: white;
+  width: 100%;
+  max-width: 900px;
+  padding: 20px;
+}
+
+/* LOGO */
+.logo {
+  width: clamp(120px, 18vw, 200px);
+  margin-bottom: 10px;
+  animation: fadeIn 1s ease, float 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* TITULO */
+h1 {
+  font-size: clamp(22px, 4vw, 36px);
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+/* SUB */
+.sub {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 25px;
+}
+
+/* CONTADOR */
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.box {
+  background: rgba(0,0,0,0.45);
+  border-radius: 16px;
+  padding: 18px 12px;
+  min-width: 75px;
+  backdrop-filter: blur(6px);
+  flex: 1;
+  max-width: 110px;
+}
+
+.number {
+  font-size: clamp(28px, 6vw, 50px);
+  font-weight: bold;
+}
+
+/* ANIMACION */
+.flip {
+  animation: flip 0.5s ease;
+}
+
+@keyframes flip {
+  0% { transform: rotateX(0); }
+  50% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0); }
+}
+
+.label {
+  font-size: 11px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+
+/* COLOR DINAMICO */
+.glow {
+  text-shadow: 
+    0 0 8px var(--color-main),
+    0 0 16px var(--color-main);
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .container {
+    transform: translate(-50%, -55%);
+  }
+
+  .box {
+    padding: 12px;
+    min-width: 60px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <img src="logo.svg" class="logo" alt="Mundial 2026">
+
+  <h1>RUMBO AL MUNDIAL 2026: CUÁNTO FALTA</h1>
+
+  <p class="sub">
+    Estados Unidos, México y Canadá serán sede del próximo Mundial
+  </p>
+
+  <div class="countdown">
+    <div class="box">
+      <div id="days" class="number">0</div>
+      <div class="label">Días</div>
+    </div>
+
+    <div class="box">
+      <div id="hours" class="number">0</div>
+      <div class="label">Horas</div>
+    </div>
+
+    <div class="box">
+      <div id="minutes" class="number">0</div>
+      <div class="label">Min</div>
+    </div>
+
+    <div class="box">
+      <div id="seconds" class="number">0</div>
+      <div class="label">Seg</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const targetDate = new Date("2026-06-11T00:00:00-03:00").getTime();
+
+const elements = {
+  days: document.getElementById("days"),
+  hours: document.getElementById("hours"),
+  minutes: document.getElementById("minutes"),
+  seconds: document.getElementById("seconds")
+};
+
+let lastValues = {};
+
+function setDynamicColor(days) {
+  let color;
+
+  if (days > 60) color = "#00bcd4";
+  else if (days > 10) color = "#ffc107";
+  else color = "#ff3d00";
+
+  document.documentElement.style.setProperty('--color-main', color);
+
+  Object.values(elements).forEach(el => el.classList.add("glow"));
+}
+
+function animate(el, newValue, key) {
+  if (lastValues[key] !== newValue) {
+    el.classList.remove("flip");
+    void el.offsetWidth;
+    el.classList.add("flip");
+    el.textContent = newValue;
+    lastValues[key] = newValue;
+  }
+}
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const diff = targetDate - now;
+
+  if (diff <= 0) {
+    document.querySelector(".countdown").innerHTML = "¡Llegó el día!";
+    return;
+  }
+
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  setDynamicColor(d);
+
+  animate(elements.days, d, "d");
+  animate(elements.hours, h, "h");
+  animate(elements.minutes, m, "m");
+  animate(elements.seconds, s, "s");
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+</script>
+
+</body>
+</html>
