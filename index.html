@@ -1,8 +1,7 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rumbo al Mundial 2026</title>
 
@@ -18,36 +17,35 @@
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-/* FONDO */
-body {
-  height: 100vh;
-  background: url("bg-desktop.jpg") no-repeat center 35%;
-  background-size: cover;
+/* HERO (BANNER REAL) */
+.hero {
   position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
 }
 
-/* TABLET */
-@media (max-width: 1024px) {
-  body {
-    background: url("bg-mobile.jpg") no-repeat center 25%;
-    background-size: cover;
-  }
+/* IMAGENES */
+.bg-desktop,
+.bg-mobile {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
 }
 
-/* MOBILE */
-@media (max-width: 600px) {
-  body {
-    background: url("bg-mobile.jpg") no-repeat center 18%;
-    background-size: cover;
-  }
+.bg-mobile {
+  display: none;
 }
 
-/* CENTRADO REAL SOBRE LA IMAGEN */
+/* CONTENIDO */
 .container {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -57%);
+  transform: translate(-50%, -55%);
   text-align: center;
   color: white;
   width: 100%;
@@ -56,9 +54,22 @@ body {
 }
 
 /* MOBILE */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .hero {
+    height: 520px;
+  }
+
+  .bg-desktop {
+    display: none;
+  }
+
+  .bg-mobile {
+    display: block;
+    object-position: center top;
+  }
+
   .container {
-    transform: translate(-50%, -53%);
+    transform: translate(-50%, -50%);
   }
 }
 
@@ -67,7 +78,6 @@ body {
   width: clamp(120px, 18vw, 200px);
   margin-bottom: 10px;
   animation: fadeIn 1s ease, float 3s ease-in-out infinite;
-  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
 }
 
 @keyframes fadeIn {
@@ -92,7 +102,7 @@ h1 {
 /* SUB */
 .sub {
   font-size: 14px;
-  opacity: 0.85;
+  opacity: 0.9;
   margin-bottom: 25px;
 }
 
@@ -133,7 +143,7 @@ h1 {
 .label {
   font-size: 11px;
   text-transform: uppercase;
-  opacity: 0.8;
+  opacity: 0.85;
   margin-top: 5px;
 }
 
@@ -143,56 +153,36 @@ h1 {
     0 0 8px var(--color-main),
     0 0 16px var(--color-main);
 }
-
-/* MOBILE */
-@media (max-width: 480px) {
-  .container {
-    transform: translate(-50%, -55%);
-  }
-
-  .box {
-    padding: 12px;
-    min-width: 60px;
-  }
-}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<section class="hero">
 
-  <img src="logo.png" class="logo" alt="Mundial 2026">
+  <img src="bg-desktop.jpg" class="bg-desktop">
+  <img src="bg-mobile.jpg" class="bg-mobile">
 
-  <h1>RUMBO AL MUNDIAL 2026: CUÁNTO FALTA</h1>
+  <div class="container">
 
-  <p class="sub">
-    Estados Unidos, México y Canadá serán sede del próximo Mundial
-  </p>
+    <img src="logo.png" class="logo" alt="Mundial 2026">
 
-  <div class="countdown">
-    <div class="box">
-      <div id="days" class="number">0</div>
-      <div class="label">Días</div>
+    <h1>RUMBO AL MUNDIAL 2026: CUÁNTO FALTA</h1>
+
+    <p class="sub">
+      Estados Unidos, México y Canadá serán sede del próximo Mundial
+    </p>
+
+    <div class="countdown">
+      <div class="box"><div id="days" class="number">0</div><div class="label">Días</div></div>
+      <div class="box"><div id="hours" class="number">0</div><div class="label">Horas</div></div>
+      <div class="box"><div id="minutes" class="number">0</div><div class="label">Min</div></div>
+      <div class="box"><div id="seconds" class="number">0</div><div class="label">Seg</div></div>
     </div>
 
-    <div class="box">
-      <div id="hours" class="number">0</div>
-      <div class="label">Horas</div>
-    </div>
-
-    <div class="box">
-      <div id="minutes" class="number">0</div>
-      <div class="label">Min</div>
-    </div>
-
-    <div class="box">
-      <div id="seconds" class="number">0</div>
-      <div class="label">Seg</div>
-    </div>
   </div>
 
-</div>
+</section>
 
 <script>
 const targetDate = new Date("2026-06-11T00:00:00-03:00").getTime();
@@ -253,6 +243,7 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 </script>
+
 <script>
 function sendHeight() {
   const height = document.body.scrollHeight;
@@ -263,5 +254,6 @@ window.addEventListener("load", sendHeight);
 window.addEventListener("resize", sendHeight);
 setInterval(sendHeight, 1000);
 </script>
+
 </body>
 </html>
