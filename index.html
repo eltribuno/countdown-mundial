@@ -21,9 +21,25 @@
 /* FONDO */
 body {
   height: 100vh;
-  background: url("bg.jpg") no-repeat center center;
+  background: url("bg-desktop.jpg") no-repeat center 35%;
   background-size: cover;
   position: relative;
+}
+
+/* TABLET */
+@media (max-width: 1024px) {
+  body {
+    background: url("bg-mobile.jpg") no-repeat center 25%;
+    background-size: cover;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  body {
+    background: url("bg-mobile.jpg") no-repeat center 18%;
+    background-size: cover;
+  }
 }
 
 /* CENTRADO REAL SOBRE LA IMAGEN */
@@ -31,12 +47,19 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -58%);
+  transform: translate(-50%, -57%);
   text-align: center;
   color: white;
   width: 100%;
   max-width: 900px;
   padding: 20px;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .container {
+    transform: translate(-50%, -53%);
+  }
 }
 
 /* LOGO */
